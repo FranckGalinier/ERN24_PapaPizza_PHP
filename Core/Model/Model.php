@@ -10,7 +10,7 @@ class Model
   {
     //si on a des données, on les injecte dans l'objet
 
-    foreach($data_row as $key => $value)
+    foreach($data_row as $column => $value)
     {
       //si la propriété n'exite pas, on ne l'ajoute pas et passe à la suivante
       if (!property_exists($this, $column)) continue;

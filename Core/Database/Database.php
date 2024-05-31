@@ -19,18 +19,18 @@ class Database
   //fonction qui est accessible pour récupérer l'instance de PDO
   public static function getPDO(DatabaseConfigInterface $config): PDO
   {
-    if (is_null(self::$pdoInstance)) { // si pdo instance est null
+    if (is_null(self::$pdoinstance)) { // si pdo instance est null
       //on créee une instance de PDO
       // ici on utilise sprintf pour formater la chaine de caractère avec les valeurs de la config
-      $dsn =sprintf('mysql:dbname=%s;host=%s', $config->getName(), $config->getHost);
-      self::$pdoInstance = new PDO(
+      $dsn =sprintf('mysql:dbname=%s;host=%s', $config->getName(), $config->getHost());
+      self::$pdoinstance = new PDO(
         $dsn,
         $config->getUser(),
         $config->getPass(),
         self::PDO_OPTIONS);
     }
     //ici retoune une instance de PDO
-    return self::$pdoInstance;
+    return self::$pdoinstance;
   }
   //on empeche l'instanciation de la classe avec le private function __construct(){}
   private function __construct(){}

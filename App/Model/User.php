@@ -17,5 +17,4 @@ class User extends Model
   public ?string $country;
   public bool $is_admin;
   public bool $is_active; 
-
 }

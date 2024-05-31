@@ -53,7 +53,7 @@
                     <nav class="custom-nav">
                         <ul class="custom-ul">
                             <li class="custom-link"><a href="/">Accueil</a></li>
-                            <li class="custom-link"><a href="#">Carte</a></li>
+                            <li class="custom-link"><a href="/pizzas">Carte</a></li>
                             <li class="custom-link"><a href="#">Actualités</a></li>
                             <li class="custom-link"><a href="#">Contact</a></li>
                         </ul>
@@ -64,9 +64,32 @@
                 <div class="nav-profil">
                     <nav class="custom-nav-profil">
                         <ul class="custom-ul-profil">
-                            <li class="custom-link"><a href="/connexion">Se connecter <i class="bi bi-person custom-svg"></i></a>
+                            <!-- <li class="custom-link"><a href="/connexion">Se connecter <i class="bi bi-person custom-svg"></i></a>
                             </li>
-                            <li class="custom-link end-link"><a href="#"><i class="bi bi-cart"></i></a></li>
+                            <li class="custom-link end-link"><a href="#"><i class="bi bi-cart"></i></a></li> -->
+                            
+                            <li class="custom-link">
+                                <!-- Si je suis en session j'affiche mon compte -->
+                                <?php if ($auth::isAuth()): ?>
+                                    <div class="dropdown custom-link">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        Mon compte
+                                        <i class="bi bi-person custom-svg"></i></a>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                            <li><a href="#" class="dropdown-item custom-link">Profil</a></li>
+                                            <li><a href="#" class="dropdown-item custom-link">Créer une pizza</a></li>
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li><a href="#" class="dropdown-item custom-link">Mes pizzas</a></li>
+                                            <li><a href="#" class="dropdown-item custom-link">Mes commade</a></li>
+                                        </ul>
+                                    </div>
+                                    <!-- sinon j'affiche se connecter  -->
+                                    <?php else: ?>
+                                        <a href="/connexion">Se connecter <i class="bi bi-person custom-svg"></i></a>
+                                    <?php endif; ?>
+
+                            </li>
                         </ul>
                     </nav>
                 </div>

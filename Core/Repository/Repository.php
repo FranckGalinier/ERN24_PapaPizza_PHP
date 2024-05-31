@@ -30,7 +30,7 @@ abstract class Repository
     //on déclare un tableau vide
     $array_result = [];
     //on crée notre requête SQL
-    $q = sprintf('SELECT * FROM %s', $this->getTableName();
+    $q = sprintf('SELECT * FROM %s', $this->getTableName());
     //on exécute la requête
     $stmt = $this->pdo->query($q);
     //si la requete n'est pas valide, on retourne un tableau vide

@@ -52,7 +52,7 @@ class FormResult
    * @param FormError $error
    * @return void
    */
-  public function addError(FormError $error);void
+  public function addError(FormError $error):void
   {
     $this->form_errors[] = $error;//permet de pouvoir accumuler plusieurs erreurs dans un tableau
   }

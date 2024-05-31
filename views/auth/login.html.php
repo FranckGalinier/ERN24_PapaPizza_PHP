@@ -1,3 +1,4 @@
+<?php if ($auth::isAuth()) $auth::redirect('/') ?>
 <main class="container-form">
   <h1>Je me connecte</h1>
   <!-- Affichage des erreurs s'il y en a -->

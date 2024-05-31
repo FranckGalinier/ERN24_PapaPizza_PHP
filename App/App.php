@@ -14,7 +14,7 @@ class App implements DatabaseConfigInterface
   {
     //on défni les constantes de la base de donnée
     private const DB_HOST = 'database';
-    private const DB_NAME = 'database-lamp';
+    private const DB_NAME = 'database_lamp';
     private const DB_USER = 'admin';
     private const DB_PASS = 'admin';
 
@@ -50,6 +50,8 @@ class App implements DatabaseConfigInterface
     // 1. méthode start pour activer le router
     public function start():void
     {
+      //on ouvre l'accés à la session
+      session_start();
       //enregistre les routes
       $this->registerRoutes();
       //démarre le router
@@ -72,6 +74,7 @@ class App implements DatabaseConfigInterface
       //Partie PIZZA :
 
       $this->router->get('/', [PizzaController::class, 'home']);
+      $this->router->get('/pizzas', [PizzaController::class, 'getPizzas']);
 
     }
 

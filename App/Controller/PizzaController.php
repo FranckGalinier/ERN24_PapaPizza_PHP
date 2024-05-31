@@ -6,6 +6,11 @@ use Core\View\View;
 use Core\Controller\Controller;
 
 class PizzaController extends Controller
+
+  /**
+   * méthode qui renvoie la vue de la page d'accueil
+   * @return void
+   */
  {
   public function home()
   {
@@ -21,5 +26,14 @@ class PizzaController extends Controller
   
     $view = new View('home/home');
     $view->render($viewdata);
+  }
+
+  /**
+   * méthode qui renvoie la vue de la carte des pizzas
+   * @return void
+   */
+  public function getPizzas():void
+  {
+    
   }
  }

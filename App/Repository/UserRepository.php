@@ -42,7 +42,7 @@ class UserRepository extends Repository
     //on récupère l'id de l'utilisateur fraichement créée
     $id = $this->pdo->lastInsertId();
     //On peux retourner l'objet user grace à la méthode readById
-    $this->readById(User::class, $id);
+    return $this->readById(User::class, $id);
 
   }
 
