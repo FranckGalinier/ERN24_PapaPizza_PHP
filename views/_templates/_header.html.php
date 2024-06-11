@@ -70,7 +70,15 @@
                             
                             <li class="custom-link">
                                 <!-- Si je suis en session j'affiche mon compte -->
-                                <?php if ($auth::isAuth()): ?>
+                                <?php
+
+use App\Controller\OrderController;
+use Core\Session\Session;
+
+if($auth::isAuth()) $user_id = Session::get(Session::USER)->id;
+
+                                      if ($auth::isAuth()): ?>
+                                      
                                     <div class="dropdown custom-link">
                                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                         data-bs-toggle="dropdown" aria-expanded="false">
@@ -78,17 +86,36 @@
                                         <i class="bi bi-person custom-svg"></i></a>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                             <li><a href="#" class="dropdown-item custom-link">Profil</a></li>
-                                            <li><a href="#" class="dropdown-item custom-link">Créer une pizza</a></li>
+                                            <li><a href="/user/create-pizza/<?= $user_id ?>" class="dropdown-item custom-link">Créer une pizza</a></li>
                                             <li><hr class="dropdown-divider"></li>
-                                            <li><a href="#" class="dropdown-item custom-link">Mes pizzas</a></li>
-                                            <li><a href="#" class="dropdown-item custom-link">Mes commade</a></li>
+                                            <li><a href="/user/list-custom-pizza/<?= $user_id ?>" class="dropdown-item custom-link">Mes pizzas</a></li>
+                                            <li><a href="#" class="dropdown-item custom-link">Mes commandes</a></li>
                                         </ul>
                                     </div>
                                     <!-- sinon j'affiche se connecter  -->
                                     <?php else: ?>
                                         <a href="/connexion">Se connecter <i class="bi bi-person custom-svg"></i></a>
-                                    <?php endif; ?>
+                                    <?php endif ?>
 
+                            </li>
+                            <li class="custom-link">
+                              <?php
+                              
+                              if($auth::isAuth()) : ?> 
+                                
+                                <a href="/order/<?= $user_id ?>" class="position-relative">
+                                  <div>
+                                    <i class="bi bi-cart custom-svg"></i>
+                                    <!-- on vérifie si on a des lignes dans le panier -->
+                                     <?php if(OrderController::hasOrderInCart()): ?>
+                                      <span class="bg-danger position-absolute top-0 start-100 translate-middle p-1 border border-light rounded-circle">
+                                      </span>
+                                     <?php endif ?>
+                                  </div>
+                                </a>
+
+                              <?php endif ?>
+                              
                             </li>
                         </ul>
                     </nav>

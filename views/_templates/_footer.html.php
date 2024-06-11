@@ -14,9 +14,10 @@
     <div class="box-icon-footer">
       <p class="text-footer">Rejoignez-nous</p>
       <div class="list-icon-footer">
-        <a class="social-icon" href="#"><i class="bi bi-facebook"></i></a>
-        <a class="social-icon" href="#"><i class="bi bi-instagram"></i></a>
-        <a class="social-icon" href="#"><i class="bi bi-twitter-x"></i></a>
+        <li><a class="social-icon" href="#"><i class="bi bi-facebook"></i></a></li>
+        <li><a class="social-icon" href="#"><i class="bi bi-instagram"></i></a></li>
+        <li><a class="social-icon" href="#"><i class="bi bi-twitter-x"></i></a></li>
+      </div>
     </div>
   </ul>
 </nav>

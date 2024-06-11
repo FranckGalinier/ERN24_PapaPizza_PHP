@@ -4,6 +4,8 @@ namespace App;
 
 use MiladRahimi\PhpRouter\Router;
 use App\Controller\AuthController;
+use App\Controller\UserController;
+use App\Controller\OrderController;
 use App\Controller\PizzaController;
 use Core\Database\DatabaseConfigInterface;
 use MiladRahimi\PhpRouter\Exceptions\RouteNotFoundException;
@@ -62,12 +64,17 @@ class App implements DatabaseConfigInterface
     //2. méthode qui va enregistrer les routes
     private function registerRoutes():void
     {
+      //on va définir des patterns de routes
+      $this->router->pattern('id', '[0-9]\d*'); //autorise que l'id soit un nombre de 0 à 9 
+
+
       // Partie AUTH :
       //connexion
       //get va renvoyer une vue
       $this->router->get('/connexion', [AuthController::class, 'loginForm']);
       $this->router->get('/inscription', [AuthController::class, 'registerForm']);
-      //post va réceptionner des données
+      //post va 
+      //réceptionner des données
       $this->router->post('/login', [AuthController::class, 'login']);
       $this->router->post('/register', [AuthController::class, 'register']);
 
@@ -75,6 +82,20 @@ class App implements DatabaseConfigInterface
 
       $this->router->get('/', [PizzaController::class, 'home']);
       $this->router->get('/pizzas', [PizzaController::class, 'getPizzas']);
+      $this->router->get('/pizza/{id}', [PizzaController::class, 'getPizzaById']);
+
+      //PArtie panier
+      $this->router->post('/add/order', [OrderController::class, 'addOrder']);
+      $this->router->get('/order/{id}', [UserController::class, 'order']);
+      $this->router->post('/order/update/{id}', [OrderController::class, 'updateOrder']);
+      $this->router->post('/order-row/delete/{id}', [OrderController::class, 'deleteOrderRow']);
+
+      //Partie user
+      $this->router->get('/user/create-pizza/{id}', [UserController::class, 'createPizza']);
+      $this->router->get('/user/list-custom-pizza/{id}', [UserController::class, 'listCustomPizza']);
+      $this->router->get('/user/pizza/delete/{id}', [UserController::class, 'deleteCustomPizza']);
+      $this->router->post('/add-custom-pizza-form', [PizzaController::class, 'addCustomPizzaForm']);
+      
 
     }
 

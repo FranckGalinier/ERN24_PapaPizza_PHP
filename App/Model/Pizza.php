@@ -11,7 +11,7 @@ class Pizza extends Model
   public bool $is_active;
   public int $user_id;
 
-    //on crée ne propriété user pour stocker l'utilisateur
+    //on crée une propriété user pour stocker l'utilisateur
   public User $user;
 
   public array $ingredients =[];

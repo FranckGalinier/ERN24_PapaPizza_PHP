@@ -7,7 +7,7 @@ trait RepositoryManagerTrait
   /**
    * un trait permet de gérer une portion de code directement dans une classe
    * sans notion de hiérarchie
-   * dans ce trait on va utilis er la notion de self qui fera référence à la classe qui utilisera ce trait
+   * dans ce trait on va utiliser la notion de self qui fera référence à la classe qui utilisera ce trait
    * ici on aura un designe de singleton pattern
    */
   //on crée une propriété privée qui contiendra l'instance de la classe qui utilisera ce trait

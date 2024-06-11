@@ -38,5 +38,5 @@
 
     </div>
     </div>
-    <a href="#" class="call-action">Je découvre la carte</a>
+    <a href="/pizzas" class="call-action">Je découvre la carte</a>
 </section>
