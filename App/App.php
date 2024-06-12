@@ -15,10 +15,10 @@ use MiladRahimi\PhpRouter\Exceptions\InvalidCallableException;
 class App implements DatabaseConfigInterface
   {
     //on défni les constantes de la base de donnée
-    private const DB_HOST = 'database';
-    private const DB_NAME = 'database_lamp';
-    private const DB_USER = 'admin';
-    private const DB_PASS = 'admin';
+//  define('DB_HOST', $_ENV['DB_HOST']);
+//     private const DB_NAME = $_ENV['DB_NAME'];
+//     private const DB_USER = $_ENV['DB_USER'];
+//     private const DB_PASS = $_ENV['DB_PASS'];
 
     private static ?self $instance = null;
 
@@ -128,19 +128,19 @@ class App implements DatabaseConfigInterface
     //chaque fonction retoune la valeur de la constante
     public function getHost():string
     {
-      return self::DB_HOST;
+      return DB_HOST;
     }
     public function getName():string
     {
-      return self::DB_NAME;
+      return DB_NAME;
     }
     public function getUser():string
     {
-      return self::DB_USER;
+      return DB_USER;
     }
     public function getPass():string
     {
-      return self::DB_PASS;
+      return DB_PASS;
     }
 
   }
