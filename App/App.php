@@ -86,19 +86,22 @@ class App implements DatabaseConfigInterface
       $this->router->get('/pizzas', [PizzaController::class, 'getPizzas']);
       $this->router->get('/pizza/{id}', [PizzaController::class, 'getPizzaById']);
 
-      //Partie panier
+      //Partie ORDER
       $this->router->post('/add/order', [OrderController::class, 'addOrder']);
       $this->router->get('/order/{id}', [UserController::class, 'order']);
       $this->router->post('/order/update/{id}', [OrderController::class, 'updateOrder']);
       $this->router->post('/order-row/delete/{id}', [OrderController::class, 'deleteOrderRow']);
       $this->router->get('/order/success-order/{order_id}', [OrderController::class, 'successOrder']);
 
-      //Partie user
+      //Partie USER
       $this->router->get('/user/create-pizza/{id}', [UserController::class, 'createPizza']);
       $this->router->get('/user/list-custom-pizza/{id}', [UserController::class, 'listCustomPizza']);
       $this->router->get('/user/pizza/delete/{id}', [UserController::class, 'deleteCustomPizza']);
       $this->router->post('/add-custom-pizza-form', [PizzaController::class, 'addCustomPizzaForm']);
       $this->router->get('/order/confirm/{order_id}', [OrderController::class, 'paymentStripe']);
+      $this->router->get('/user/list-order/{id}', [UserController::class, 'listOrder']);
+      $this->router->get('/user/order/cancel/{id}', [OrderController::class, 'cancelOrder']);
+      $this->router->get('/user/order/reactivated/{id}', [OrderController::class, 'reactivatedOrder']);
       
 
     }

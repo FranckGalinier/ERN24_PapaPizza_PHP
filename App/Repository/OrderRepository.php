@@ -302,4 +302,40 @@ class OrderRepository extends Repository
 
     }
 
+    /**
+     * méthode qui permet de récupérer toutes les commandes d'un utilisateur
+     * @param int $id
+     * @return array
+     */
+    public function findOrderByUser(int $id):array
+    {
+      $array_results = [];
+      //on crée la requete sql
+      $q = sprintf(
+        'SELECT *
+        FROM `%s`
+        WHERE `user_id` = :id
+        ORDER BY status ASC',
+        $this->getTableName()
+      );
+
+      //on prépare la requete
+      $stmt = $this->pdo->prepare($q);
+
+      //on execute la requete
+      if(!$stmt->execute(['id'=>$id])) return $array_results;
+
+      //on récupère les résultats
+      while($row_data = $stmt->fetch()){
+      $order = new Order($row_data);
+      //on va hydrater pour remplir order_rows
+      $order->order_rows = AppRepoManager::getRm()->getOrderRowRepository()->findOrderRowByOrder($order->id);
+
+      //on rempli le tableau
+      $array_results[$order->status][] = $order;
+      }
+      return $array_results;
+
+    }
+
 }

@@ -63,7 +63,7 @@
                                             <li><a href="/user/create-pizza/<?= $user_id ?>" class="dropdown-item custom-link">Créer une pizza</a></li>
                                             <li><hr class="dropdown-divider"></li>
                                             <li><a href="/user/list-custom-pizza/<?= $user_id ?>" class="dropdown-item custom-link">Mes pizzas</a></li>
-                                            <li><a href="#" class="dropdown-item custom-link">Mes commandes</a></li>
+                                            <li><a href="/user/list-order/<?= $user_id ?>" class="dropdown-item custom-link">Mes commandes</a></li>
                                             <li><hr class="dropdown-divider"></li>
                                             <li><a class="dropdown-item custom-link" href="/logout"> La Déconnexion</a></li>
                                         </ul>

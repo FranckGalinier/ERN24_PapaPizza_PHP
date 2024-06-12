@@ -332,4 +332,89 @@ class OrderController extends Controller
       self::redirect('/order/' . $order_id);//todo: refiriger sur la liste des commandes
     }
   }
+
+   /**
+   * méthode qui permet d'annuler une commande
+   * @param int $id
+   * @return void
+   */
+  public function CancelOrder(int $id):void
+  {
+    $form_result = new FormResult();
+
+    //on va récupèrer la commande
+    $order = AppRepoManager::getRm()->getOrderRepository()->findOrderByIdWithRow($id);
+    // on va reconstruire un tableau de données pour mettre à jour le status commande
+    $data =[
+      'id' => $id,
+      'status' => Order::CANCELED
+    ];
+
+    $order = AppRepoManager::getRm()->getOrderRepository()->updateOrder($data);
+    $user_id = Session::get(Session::USER)->id;
+
+    if(!$order){
+      $form_result->addError(new FormError('Erreur lors de l\'annulation de la commande'));
+    }else{
+      $form_result->addSuccess(new FormSuccess('Commande annulée'));
+    }
+
+    //si on a des erreurs, on les mets en sessions
+    if ($form_result->hasErrors()) {
+      Session::set(Session::FORM_RESULT, $form_result);
+      //on redirige sur la page du panier
+      self::redirect('/user/list-order/' . $user_id);
+    }
+
+    //si on a des succès, on les mets en sessions
+    if ($form_result->hasSuccess()) {
+      Session::remove(Session::FORM_RESULT);
+      Session::set(Session::FORM_SUCCESS, $form_result);
+      //on redirige sur la page du panier
+      self::redirect('/user/list-order/' . $user_id);//todo: rediriger sur la liste des commandes
+    }
+  }
+   /**
+   * méthode qui permet de réactiver une commande
+   * @param int $id
+   * @return void
+   */
+  public function reactivatedOrder(int $id):void
+  {
+    $form_result = new FormResult();
+
+    //on va récupèrer la commande
+    $order = AppRepoManager::getRm()->getOrderRepository()->findOrderByIdWithRow($id);
+    // on va reconstruire un tableau de données pour mettre à jour le status commande
+    $data =[
+      'id' => $id,
+      'status' => Order::VALIDATED
+    ];
+
+    $order = AppRepoManager::getRm()->getOrderRepository()->updateOrder($data);
+    $user_id = Session::get(Session::USER)->id;
+
+    if(!$order){
+      $form_result->addError(new FormError('Erreur lors de la réactivation de la commande'));
+    }else{
+      $form_result->addSuccess(new FormSuccess('Commande réactivé'));
+    }
+
+    //si on a des erreurs, on les mets en sessions
+    if ($form_result->hasErrors()) {
+      Session::set(Session::FORM_RESULT, $form_result);
+      //on redirige sur la page du panier
+      self::redirect('/user/list-order/' . $user_id);
+    }
+
+    //si on a des succès, on les mets en sessions
+    if ($form_result->hasSuccess()) {
+      Session::remove(Session::FORM_RESULT);
+      Session::set(Session::FORM_SUCCESS, $form_result);
+      //on redirige sur la page du panier
+      self::redirect('/user/list-order/' . $user_id);//todo: rediriger sur la liste des commandes
+    }
+  }
+
+  
 }
