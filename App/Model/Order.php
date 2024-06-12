@@ -25,6 +25,7 @@ class Order extends Model
   public string $status;
   public int $user_id;
 
+    //propirétés d'hydratation
   public ?User $user;
 
   public array $order_rows;

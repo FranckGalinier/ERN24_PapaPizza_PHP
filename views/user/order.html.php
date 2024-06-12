@@ -13,7 +13,7 @@
   ?>
   <div>
     <p class="header-description">Commande : <?= $order->order_number ?> </p>
-    <p class="header-description"> Commande passé le : <?= $date_time->format("d/m/Y H:i:s") ?></p>
+    <p class="header-description"> Panier crée le : <?= $date_time->format("d/m/Y H:i:s") ?></p>
   </div>
 
   <table class="table table-striped">
@@ -64,7 +64,7 @@
         <td class="footer-description"> </td>
         <td class="footer-description">Total : <?= number_format($total, 2, ',','.') ?> €</td>
         <td class="footer-description">
-          <a href="#" class="btn btn-warning">Payer <?= number_format($total, 2, ',','.') ?> €</a>
+          <a href="/order/confirm/<?= $order->id ?>" class="btn btn-warning">Payer <?= number_format($total, 2, ',','.') ?> €</a>
         </td>
        </tr>
     </tbody>

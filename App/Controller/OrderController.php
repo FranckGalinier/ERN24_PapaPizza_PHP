@@ -237,4 +237,99 @@ class OrderController extends Controller
       self::redirect('/order/' . $user_id);
     }
   }
+
+  /**
+   * méthode pour effectuer le payement avec stripe
+   * @param int $order_id
+   * @return void
+   */
+  public function paymentStripe(int $order_id):void
+  {
+    //on instancie stripe et on lui pâsse la clé secrète
+    //permet de cabler l'api de stripe avec notre compte stripe
+    $stripe = new \Stripe\StripeClient(STRIPE_SK);
+
+    
+    if(!AuthController::isAuth()) $this->redirect('/');
+    $user_id = Session::get(Session::USER)->id;
+
+    //on récupère la commande avec ces linges de commande du panier
+    $data = AppRepoManager::getRm()->getOrderRepository()-> findOrderByIdWithRow($order_id);
+    //si on a pas de commande on redirige
+    if(!$data) $this->redirect('/');
+    //on va redéfinir les variables
+    $order_number = $data->order_number;
+    $name = "commande n°{$order_number}";
+    //on déclare un tableau vide pour stocker les payment intents de stripes
+    $product_stripe = [];
+
+    //on boucle sur les lignes de commande
+    foreach($data->order_rows as $row){
+      //on déclare un tableau pour chaque ligne de commande
+      $product_stripe[] = [
+        'price_data' => [
+          'currency' => 'eur',
+          'product_data' => [
+            'name' => $row->pizza->name,
+            'description' => "{$name} : \n {$row->pizza->name} x {$row->quantity}"
+
+          ],
+          'unit_amount' => $row->price * 100 // stripe veut le montant en centimes
+        ],
+        'quantity' => 1
+      ];
+    }
+    //on crée un checkout session dse stripe avec le tableau de produits
+    $checkout_session = $stripe->checkout->sessions->create([
+      'line_items' => $product_stripe,
+      'mode' => 'payment',
+      'success_url' => 'http://14-ern24-papapizzamvc.lndo.site/order/success-order/' .  $order_id,
+      'cancel_url' => 'http://14-ern24-papapizzamvc.lndo.site/order/' .  $user_id
+    ]);
+    header("http/1.1 303 see other");
+    header("Location: " . $checkout_session->url);
+
+  }
+
+  /**
+   * méthode qui permet de valider une commande
+   * @param int $order_id
+   * @return void
+   */
+  public function successOrder(int $order_id):void
+  {
+    $form_result = new FormResult();
+
+    //on va récupèrer la commande
+    $order = AppRepoManager::getRm()->getOrderRepository()->findOrderByIdWithRow($order_id);
+    // on va reconstruire un tableau de données pour mettre à jour le status commande
+    $data =[
+      'id' => $order_id,
+      'status' => Order::VALIDATED
+    ];
+
+    $order = AppRepoManager::getRm()->getOrderRepository()->updateOrder($data);
+    $user_id = Session::get(Session::USER)->id;
+
+    if(!$order){
+      $form_result->addError(new FormError('Erreur lors de la validation de la commande'));
+    }else{
+      $form_result->addSuccess(new FormSuccess('Commande validée'));
+    }
+
+    //si on a des erreurs, on les mets en sessions
+    if ($form_result->hasErrors()) {
+      Session::set(Session::FORM_RESULT, $form_result);
+      //on redirige sur la page du panier
+      self::redirect('/order/' . $user_id);
+    }
+
+    //si on a des succès, on les mets en sessions
+    if ($form_result->hasSuccess()) {
+      Session::remove(Session::FORM_RESULT);
+      Session::set(Session::FORM_SUCCESS, $form_result);
+      //on redirige sur la page du panier
+      self::redirect('/order/' . $order_id);//todo: refiriger sur la liste des commandes
+    }
+  }
 }

@@ -66,6 +66,7 @@ class App implements DatabaseConfigInterface
     {
       //on va définir des patterns de routes
       $this->router->pattern('id', '[0-9]\d*'); //autorise que l'id soit un nombre de 0 à 9 
+      $this->router->pattern('order_id', '[0-9]\d*'); //autorise que l'id soit un nombre de 0 à 9 
 
 
       // Partie AUTH :
@@ -73,6 +74,7 @@ class App implements DatabaseConfigInterface
       //get va renvoyer une vue
       $this->router->get('/connexion', [AuthController::class, 'loginForm']);
       $this->router->get('/inscription', [AuthController::class, 'registerForm']);
+      $this->router->get('/logout', [AuthController::class, 'logout']);
       //post va 
       //réceptionner des données
       $this->router->post('/login', [AuthController::class, 'login']);
@@ -84,17 +86,19 @@ class App implements DatabaseConfigInterface
       $this->router->get('/pizzas', [PizzaController::class, 'getPizzas']);
       $this->router->get('/pizza/{id}', [PizzaController::class, 'getPizzaById']);
 
-      //PArtie panier
+      //Partie panier
       $this->router->post('/add/order', [OrderController::class, 'addOrder']);
       $this->router->get('/order/{id}', [UserController::class, 'order']);
       $this->router->post('/order/update/{id}', [OrderController::class, 'updateOrder']);
       $this->router->post('/order-row/delete/{id}', [OrderController::class, 'deleteOrderRow']);
+      $this->router->get('/order/success-order/{order_id}', [OrderController::class, 'successOrder']);
 
       //Partie user
       $this->router->get('/user/create-pizza/{id}', [UserController::class, 'createPizza']);
       $this->router->get('/user/list-custom-pizza/{id}', [UserController::class, 'listCustomPizza']);
       $this->router->get('/user/pizza/delete/{id}', [UserController::class, 'deleteCustomPizza']);
       $this->router->post('/add-custom-pizza-form', [PizzaController::class, 'addCustomPizzaForm']);
+      $this->router->get('/order/confirm/{order_id}', [OrderController::class, 'paymentStripe']);
       
 
     }

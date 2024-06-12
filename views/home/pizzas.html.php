@@ -1,6 +1,12 @@
+<?php use Core\Session\Session; ?>
+
 <div class="admin-container">
   <h1> <?= $h1 ?></h1>
+
+  <?php if (Session::get(Session::USER)): ?>
   <a class="call-action" href="/user/create-pizza/<?= $user_id ?>">Je crée ma pizza</a>
+  <?php endif; ?>
+ 
 </div>
 <div class="d-flex justify-content-center">
   <div class="d-flex flex-row flex-wrap my-3 justify-content-center col-lg-10">

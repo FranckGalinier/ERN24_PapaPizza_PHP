@@ -248,4 +248,58 @@ class OrderRepository extends Repository
         return $result->count;
     }
 
+    /**
+     * méthode qui permet de récupérer une commande avec son id avec toutes ces lignes de commances
+     * @param int $order_id
+     * @return Object|null
+     */
+    public function findOrderByIdWithRow(int $order_id):?object
+    {
+      //on crée la requete sql
+      $q = sprintf(
+        'SELECT *
+        FROM `%s`
+        WHERE `id` = :order_id',
+        $this->getTableName()
+      );
+
+      //on prépare la requete
+      $stmt = $this->pdo->prepare($q);
+
+      //on reagrde si la requete est bien préparée
+      if(!$stmt->execute(['order_id'=>$order_id])) return null;
+
+      //on récupère les résultats
+      $result = $stmt->fetchObject();
+
+      //on va hydrater objet order avec toutes les lignes de commande
+      $result->order_rows = AppRepoManager::getRm()->getOrderRowRepository()->findOrderRowByOrder($result->id);
+
+      return $result;
+
+    }
+
+
+    /**
+     * méthode qui permet de mettre à jour le statut d'une commande
+     * @param array $data
+     * @return bool
+     */
+    public function updateOrder(array $data ):bool
+    {
+      //on crée la requete sql
+      $q = sprintf(
+        'UPDATE `%s`
+        SET `status` = :status
+        WHERE `id` = :id',
+        $this->getTableName()
+      );
+
+      //on prépare la requete
+      $stmt = $this->pdo->prepare($q);
+
+      return $stmt->execute($data);
+
+    }
+
 }

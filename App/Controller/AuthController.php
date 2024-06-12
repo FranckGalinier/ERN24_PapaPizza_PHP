@@ -202,4 +202,16 @@ class AuthController extends Controller
     return !is_null(Session::get(Session::USER));
   }
 
+  /**
+   * méthode qui permet de se déconnecter
+   * @return void
+   */
+  public function logout():void
+  {
+    //on va détruire la session
+    Session::remove(Session::USER);
+    //on redirige vers l'accueil
+    self::redirect('/');
+  }
+
 }
